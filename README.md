@@ -5,13 +5,24 @@
 ### A self-healing dual-agent system — built for NMG Labs Forge Sprint 02 (Hermes × OpenClaw Edition)
 
 *Nexora — **Nex**us (connection) + Aur**ora** (new beginning)*
-*Two AI agents that talk only through Slack, catch their own mistakes, and fix them — without a human ever touching the code.*
 
-![Python](https://img.shields.io/badge/Python-100%25-3776AB?style=flat-square&logo=python&logoColor=white)
-![Slack](https://img.shields.io/badge/Slack-Connected-4A154B?style=flat-square&logo=slack&logoColor=white)
-![CI](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Self--Healing%20Proven-brightgreen?style=flat-square)
-![License](https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square)
+**Two AI agents that talk only through Slack, catch their own mistakes, and fix them — without a human ever touching the code.**
+
+![Python](https://img.shields.io/badge/Python-100%25-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Slack](https://img.shields.io/badge/Slack-Connected-4A154B?style=for-the-badge&logo=slack&logoColor=white)
+![CI](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Self--Healing%20Proven-brightgreen?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-lightgrey?style=for-the-badge)
+
+<br>
+
+[![Groq](https://img.shields.io/badge/LLM-Groq%20%7C%20Llama%203.1-orange?style=flat-square)](https://groq.com)
+[![Ollama](https://img.shields.io/badge/Local%20LLM-Ollama%20%7C%20Llama%203.2-black?style=flat-square)](https://ollama.com)
+[![Made with love](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red?style=flat-square)]()
+
+<br>
+
+**[Quick Start](#-quick-start)** • **[Architecture](#️-architecture)** • **[Live Proof](#-live-proof-this-works)** • **[Demo](#-demo-script-for-sprint-day)**
 
 </div>
 
@@ -20,13 +31,16 @@
 ## 📋 Table of Contents
 
 - [The Idea](#-the-idea)
-- [Architecture](#-architecture)
+- [Why Nexora Is Different](#-why-nexora-is-different)
+- [Architecture](#️-architecture)
 - [Live Proof This Works](#-live-proof-this-works)
 - [How It Satisfies the Qualifier](#-how-it-satisfies-the-qualifier)
 - [Project Structure](#️-project-structure)
 - [Quick Start](#-quick-start)
 - [Demo Script](#-demo-script-for-sprint-day)
+- [Tech Stack](#-tech-stack)
 - [Roadmap](#-roadmap)
+- [Author](#-author)
 
 ---
 
@@ -34,14 +48,59 @@
 
 Most agent demos show one agent doing one task, once. **Nexora AI goes further — it's a closed loop.**
 
-| Agent | Role |
-|---|---|
-| 🧭 **Hermes** | The orchestrator — decides what needs to be done, assigns it, and watches the results |
-| 🛠️ **OpenClaw** | The coder — picks up tasks, writes code, commits, and reports back |
-| ⚙️ **GitHub Actions** | The judge — runs the test suite on every commit |
-| 🔁 **The Loop** | When CI fails, Hermes doesn't wait for a human. It reads the failure, creates a new fix-task, and hands it back to OpenClaw — until the code is green again |
+<table>
+<tr>
+<td width="60px" align="center">🧭</td>
+<td><b>Hermes</b></td>
+<td>The orchestrator — decides what needs to be done, assigns it, and watches the results</td>
+</tr>
+<tr>
+<td align="center">🛠️</td>
+<td><b>OpenClaw</b></td>
+<td>The coder — picks up tasks, writes code, commits, and reports back</td>
+</tr>
+<tr>
+<td align="center">⚙️</td>
+<td><b>GitHub Actions</b></td>
+<td>The judge — runs the test suite on every commit</td>
+</tr>
+<tr>
+<td align="center">🔁</td>
+<td><b>The Loop</b></td>
+<td>When CI fails, Hermes doesn't wait for a human. It reads the failure, creates a new fix-task, and hands it back to OpenClaw — until the code is green again</td>
+</tr>
+</table>
 
-> No agent-to-agent API calls. No manual edits once a run starts. Every step is visible, timestamped, and logged in Slack.
+> 💡 No agent-to-agent API calls. No manual edits once a run starts. Every step is visible, timestamped, and logged in Slack.
+
+---
+
+## 🌟 Why Nexora Is Different
+
+<table>
+<tr>
+<th>❌ Typical Agent Demo</th>
+<th>✅ Nexora AI</th>
+</tr>
+<tr>
+<td>One agent, one task, once</td>
+<td>Two agents in a continuous feedback loop</td>
+</tr>
+<tr>
+<td>Human checks if it worked</td>
+<td>CI/CD checks automatically, every push</td>
+</tr>
+<tr>
+<td>Failure = someone gets pinged to fix it</td>
+<td>Failure = Hermes auto-generates a fix-task, no human needed</td>
+</tr>
+<tr>
+<td>Agent communication is a black box</td>
+<td>Every handoff is a visible, timestamped Slack message</td>
+</tr>
+</table>
+
+---
 
 ## 🗺️ Architecture
 
@@ -59,28 +118,34 @@ flowchart LR
     C3 --> H
 ```
 
+---
+
 ## ✅ Live Proof This Works
 
 This isn't a mockup — the loop has already run for real. Check the commit history:
 
 | Commit | What Happened | CI Result |
-|---|---|---|
+|---|---|:---:|
 | `fef66ff` | Initial CI + Slack integration goes live | 🟢 **VERIFIED** |
 | `e032e4e` | A test is deliberately broken | 🔴 **BLOCKED** — Slack alert fired automatically |
 | `8545af8` | The fix is pushed | 🟢 **VERIFIED** — system self-heals |
 
-Every one of these was logged live in Slack, in `#agent-monitor`, with **zero manual notification**.
+> 📢 Every one of these was logged live in Slack, in `#agent-monitor`, with **zero manual notification**.
+
+---
 
 ## 🧩 How It Satisfies the Qualifier
 
 | Requirement | Status |
-|---|---|
+|---|:---:|
 | Hermes + OpenClaw installed & Slack-connected | ✅ |
 | 3 channels: `#agent-main`, `#agent-code`, `#agent-monitor` | ✅ |
 | Mini challenge — fetch titles from 3 URLs, logged in Slack | ✅ `scripts/fetch_titles.py` |
 | Zero manual code edits during a run | ✅ enforced in `AGENTS.md` |
 | Communication pattern: assign → received → complete → verified/blocked | ✅ |
 | **Bonus:** CI/CD self-correction (goes beyond the mini-challenge) | ✅ proven above |
+
+---
 
 ## 🗂️ Project Structure
 
@@ -102,6 +167,8 @@ nexora-ai/
     └── ci.yml                   # runs tests + notifies Slack on every push
 ```
 
+---
+
 ## 🚀 Quick Start
 
 ```bash
@@ -116,7 +183,9 @@ pip install -r requirements.txt
 python scripts/fetch_titles.py  # run the mini-challenge
 ```
 
-CI runs automatically on every push to `main`, and posts results straight to `#agent-monitor`.
+> ⚙️ CI runs automatically on every push to `main`, and posts results straight to `#agent-monitor`.
+
+---
 
 ## 🎬 Demo Script (for Sprint Day)
 
@@ -126,18 +195,47 @@ CI runs automatically on every push to `main`, and posts results straight to `#a
 4. Show the red ❌ in GitHub Actions and the **BLOCKED** alert in `#agent-monitor` — automatic, no human trigger.
 5. Push the fix. Show the green ✅ return and the **VERIFIED** message.
 6. Close on:
-   > "No one touched the code after the first push. The system caught its own mistake and fixed it."
+
+   > *"No one touched the code after the first push. The system caught its own mistake and fixed it."*
+
+---
+
+## 🛠 Tech Stack
+
+<div align="center">
+
+| Layer | Tech |
+|---|---|
+| **Language** | Python 3.14 |
+| **Cloud LLM** | Groq — Llama 3.1 8B Instant |
+| **Local LLM** | Ollama — Llama 3.2 1B |
+| **Messaging** | Slack API |
+| **CI/CD** | GitHub Actions |
+| **Testing** | pytest |
+
+</div>
+
+---
 
 ## 🔭 Roadmap
 
 - [ ] Replace manual OpenClaw role-play with a real LLM-backed listener agent
 - [ ] Add richer failure classification (flaky test vs. real bug) before auto-retry
 - [ ] Dashboard view of task history outside Slack
+- [ ] Multi-repo support so one Hermes instance can orchestrate several projects
+- [ ] Slack slash-commands to trigger tasks manually when needed
 
 ---
 
+## 👩‍💻 Author
+
 <div align="center">
 
-Built with 🔮 by **Esha Chaturvedi** for NMG Labs Forge Sprint 02
+**Built with 🔮 by Esha Chaturvedi**
+*for NMG Labs Forge Sprint 02*
+
+[![GitHub](https://img.shields.io/badge/GitHub-eshachaturvedi7--coder-181717?style=flat-square&logo=github)](https://github.com/eshachaturvedi7-coder)
+
+⭐ *If you found this project interesting, consider giving it a star!*
 
 </div>
